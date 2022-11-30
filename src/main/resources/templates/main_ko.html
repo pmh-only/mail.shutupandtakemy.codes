@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Temp email forwarding service</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" >
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/ko/main">Shut up and take my Email</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="네비게이션 열기">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/ko/main">얻기</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <a class="nav-link text-white" href="/en/main">English</a>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<main class="container py-3">
+  <h2>닥치고 이메일 받아가다</h2>
+  <p>우리 임시 이메일 주소로 온 메일들을 님 이메일로 보내주겠음</p>
+
+  <form action="/ko/mail" class="p-3 border d-flex gap-3 flex-column" style="max-width: 500px" method="POST">
+    <label for="email_ko">이메일 주소:</label>
+    <input required id="email_ko" type="email" placeholder="ex) pmh_only@pmh.codes" name="email" class="form-control" />
+    <input type="submit" value="어음, 뭐.. 해볼게" class="btn btn-primary" />
+    <div class="alert alert-primary" role="alert" th:if="${message.equals('DONE')}">
+      <b>완료!</b> 당신의 임시 이메일 주소는 <code th:text="${address + '@shutupandtakemy.codes'}" />입니다.
+    </div>
+    <div class="alert alert-danger" role="alert" th:if="${message.equals('FAIL')}">
+      <b>이런!</b> 서버에 오류가 발생했습니다. <a href="mailto:webmaster@pmh.codes">webmaster@pmh.codes</a>에게 연락해주세요.
+    </div>
+    <div class="alert alert-info" role="alert" th:if="${message.equals('CHECK_EMAIL')}">
+      <b>잠시만요!</b> 인증메일을 보냈습니다. "Cloudflare"에서 온 이메일을 확인해 주세요.
+    </div>
+    <div class="alert alert-info" role="alert" th:if="${message.equals('TOO_EARLY')}">
+      <b>잠시만요!</b> 인증메일을 보냈습니다. "Cloudflare"에서 온 이메일을 확인해 주세요.<br />
+      재전송이 필요하시면 몇 분 후 다시 시도해 주세요.
+    </div>
+  </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
